@@ -1,0 +1,29 @@
+make_short_links.make_url:
+  path: '/make_url'
+  defaults:
+    _title: 'Make Short URL'
+    _form: '\Drupal\make_short_links\Form\make_short_link_form'
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: TRUE
+make_short_links.view_url:
+  path: '/view/{short_link}'
+  defaults:
+    _controller: '\Drupal\make_short_links\Controller\view_short_linksController::content'
+    _title: 'View Link'
+  requirements:
+    _permission: 'access content'
+    name: '[a-zA-Z0-9_]+'
+  options:
+    no_cache: TRUE     
+make_short_links.goto_url:
+  path: '/goto/{short_link}'
+  defaults:
+    _controller: '\Drupal\make_short_links\Controller\go_to_short_linkController::content'
+    _title: 'Goto Link'
+  requirements:
+    _permission: 'access content'
+    name: '[a-zA-Z0-9_]+'    
+  options:
+    no_cache: TRUE

@@ -1,0 +1,39 @@
+<?php 
+
+function make_short_links_schema() {
+  $schema['short_links'] = [
+    'description' => 'Stores the list of short links in the system',
+    'fields' => [
+      'link_id' => [
+        'description' => 'Primary id',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        ],
+      'short_link' => [
+        'description' => 'The short link url name',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ],
+      'short_link_url' => [
+        'description' => 'The short link url',
+        'type' => 'text',
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['link_id'],
+    'indexes' => [
+      'short_link' => [
+        'short_link',
+      ],
+    ],
+  ];
+
+  return $schema;
+}
+// Not sure how else to make the front page be straight to the form
+\Drupal::configFactory()
+  ->getEditable('system.site')
+  ->set('page.front', '/make_url')
+  ->save();

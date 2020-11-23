@@ -1,0 +1,6 @@
+name: Make Short Links
+description: creates short links from a url
+package: Custom
+type: module
+version: 1.0
+core: 8.x
