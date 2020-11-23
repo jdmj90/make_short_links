@@ -32,7 +32,10 @@ function make_short_links_schema() {
 
   return $schema;
 }
-// Not sure how else to make the front page be straight to the form
+
+
+
+// Not sure how else to make the front page be straight to the form, because this at least could be changed, while setting a static alias, i dont know if that would cleanly remove or not
 \Drupal::configFactory()
   ->getEditable('system.site')
   ->set('page.front', '/make_url')

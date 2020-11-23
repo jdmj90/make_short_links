@@ -101,19 +101,21 @@ class make_short_link_form extends FormBase
 		$connection = \Drupal::service('database');
 
 
-
+		// id a short name is given, use it
 		if(!empty($form_state->getValue('short_link_name')))
 		{
 			$short_name = $form_state->getValue('short_link_name');
 		}
 		else
 		{
+		// else generate one
 			$name_unique = FALSE;
 			$alpha_numberics = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';	
 			while($name_unique === FALSE)
 			{
-				$test_name = substr(str_shuffle($alpha_numberics), 0, 9);
 
+				$test_name = substr(str_shuffle($alpha_numberics), 0, 9);
+				// and make sure its not in use already
 				$check_link = $connection
 				  ->select('short_links', 'sl')
 				  ->fields('sl')
@@ -129,9 +131,7 @@ class make_short_link_form extends FormBase
 
 		}
 
-
-		
-
+		//insert link
 		$result = $connection->insert('short_links')
 		  ->fields([
 		    'short_link' => $short_name,
@@ -139,7 +139,7 @@ class make_short_link_form extends FormBase
 		  ])
 		  ->execute();
 
-
+		//create short link alias
 		$path_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create([
 		  'path' => '/goto/'.$short_name,
 		  'alias' => '/'.$short_name,

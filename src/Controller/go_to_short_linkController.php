@@ -13,7 +13,6 @@ class go_to_short_linkController extends ControllerBase
 	public function content($short_link)
 	{
 		$cleaned_link = preg_replace("/[^a-zA-Z0-9_]/", "", $short_link);
-		//select * from short_links where x is short link
 		$connection = \Drupal::service('database');
 		$retrieved_link = $connection
 		  ->select('short_links', 'sl')
@@ -23,6 +22,7 @@ class go_to_short_linkController extends ControllerBase
 		  ->execute()
 		  ->fetchAll();
 
+		// 404 if link isnt found
 		if(empty($retrieved_link))
 		{
 			throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();

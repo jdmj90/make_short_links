@@ -22,6 +22,7 @@ class view_short_linksController extends ControllerBase
 		
 		$retrieved_link = $retrieved_link->execute()->fetchAll();
 
+		// throw a 404 if link isnt found
 		if(empty($retrieved_link))
 		{
 			throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
@@ -30,15 +31,13 @@ class view_short_linksController extends ControllerBase
 		//create hyperlink
 		$hyperlink = Link::fromTextAndUrl($retrieved_link[0]->short_link_url, Url::fromUri($retrieved_link[0]->short_link_url));
 
-		//create QR code
+		//create QR code from google API
 		$page_url = urlencode($retrieved_link[0]->short_link_url);
         $url = "http://chart.apis.google.com/chart?chs=512x512&cht=qr&chl={$page_url}";
-
+        //mash the two together for a simple display
 		return [
 			'#type' => 'markup',
-
 			'#markup' =>'<div>'.$hyperlink->toString().'</div><div><img src='.$url.' /></div>',
-			//'#markup' => '<div style="width:40%;display:inline-block;">'.$hyperlink->toString().'</div><div style="width:40%;display:inline-block;"><img src='.$url.' /></div>',
 		];
 	}
 }
